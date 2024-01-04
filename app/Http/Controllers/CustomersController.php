@@ -51,6 +51,7 @@ class CustomersController extends Controller
             return response()->json([
                 'status' => 'success',
                 'token' => $token,
+                'user' => $user,
             ]);
         } catch (\Throwable $th) {
             return response()->json([
