@@ -57,6 +57,12 @@ class ProductsController extends Controller
     public function update(Request $request, Products $product)
     {
         try {
+            // detect if price changed
+            if ($request->price != $product->price) {
+                OneSignal::sendNotificationToAll(
+                    $product->name . " Fiyatı güncellendi",
+                );
+            }
             $product->name = $request->name;
             $product->details = $request->details;
             $product->price = $request->price ?? '0.00';
