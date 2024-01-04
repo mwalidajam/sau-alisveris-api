@@ -78,9 +78,9 @@ class ProductsController extends Controller
                 // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 // $server_output = curl_exec($ch);
                 // curl_close($ch);
-                OneSignal::sendNotificationToAll(
-                    $product->name . ' fiyatı değişti'
-                );
+                // OneSignal::sendNotificationToAll(
+                //     $product->name . ' fiyatı değişti'
+                // );
             }
             $product->name = $request->name;
             $product->details = $request->details;
