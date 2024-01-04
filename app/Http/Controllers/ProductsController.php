@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\FavoriteProducts;
+use Berkayk\OneSignal\OneSignalClient;
 
 class ProductsController extends Controller
 {
@@ -59,8 +60,13 @@ class ProductsController extends Controller
         try {
             // detect if price changed
             if ($request->price != $product->price) {
-                OneSignal::sendNotificationToAll(
-                    $product->name . " Fiyatı güncellendi",
+                $client = new OneSignalClient(
+                    env('ONESIGNAL_APP_ID'),
+                    env('ONESIGNAL_REST_API_KEY'),
+                    env('ONESIGNAL_USER_AUTH_KEY')
+                );
+                $client->sendNotificationToAll(
+                    "Price changed for " . $product->name,
                 );
             }
             $product->name = $request->name;
