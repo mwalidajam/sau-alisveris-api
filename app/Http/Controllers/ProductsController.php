@@ -30,6 +30,7 @@ class ProductsController extends Controller
             $product = new Products([
                 'name' => $request->name,
                 'details' => $request->details,
+                'price' => $request->price ?? '0.00',
             ]);
             $product->save();
             if ($request->image)
@@ -52,6 +53,7 @@ class ProductsController extends Controller
         try {
             $product->name = $request->name;
             $product->details = $request->details;
+            $product->price = $request->price ?? '0.00';
             $product->save();
             if ($request->image)
                 $product->update_image($request->image);

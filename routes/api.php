@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{AuthController, UsersController, UserAuth, ProductsController};
+use App\Http\Controllers\{AuthController, UsersController, UserAuth, ProductsController, CustomersController};
 
 Route::controller(UserAuth::class)->group(
     function () {
@@ -46,4 +46,13 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::controller(ProductsController::class)->group(function () {
     Route::get('/products', 'index');
     Route::get('/products/{product}', 'show');
+});
+
+Route::controller(CustomersController::class)->group(function () {
+    Route::post('/customers/register', 'register');
+    Route::post('/customers/login', 'login');
+});
+
+Route::middleware('auth:customer')->group(function () {
+    // customers
 });

@@ -43,19 +43,4 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function sections()
-    {
-        return $this->hasMany(UserSections::class);
-    }
-
-    public function syncSections(array $sections)
-    {
-        $this->sections()->delete();
-        foreach ($sections as $section) {
-            $this->sections()->create([
-                'section' => $section,
-            ]);
-        }
-    }
 }
