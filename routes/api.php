@@ -55,4 +55,9 @@ Route::controller(CustomersController::class)->group(function () {
 
 Route::middleware('auth:customer')->group(function () {
     // customers
+    Route::get('/customers/test', function () {
+        return response()->json([
+            'status' => 'success',
+        ]);
+    });
 });
