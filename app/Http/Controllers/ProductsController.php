@@ -14,11 +14,7 @@ class ProductsController extends Controller
     {
         try {
             $products = Products::with('image')->get();
-            if (auth()->user())
-                $products->map(function ($product) {
-                    $product->is_favorite = FavoriteProducts::where('customer_id', auth()->user()->id)->where('product_id', $product->id)->exists();
-                    return $product;
-                });
+
             return response()->json([
                 'status' => 'success',
                 'products' => $products,
@@ -107,8 +103,8 @@ class ProductsController extends Controller
         try {
             $product->load('image');
             // if user is signed in with middleware auth:customer
-            if (auth()->user())
-                $product->is_favorite = FavoriteProducts::where('customer_id', auth()->user()->id)->where('product_id', $product->id)->exists();
+            // if (auth()->user())
+            //     $product->is_favorite = FavoriteProducts::where('customer_id', auth()->user()->id)->where('product_id', $product->id)->exists();
             return response()->json([
                 'status' => 'success',
                 'product' => $product,
