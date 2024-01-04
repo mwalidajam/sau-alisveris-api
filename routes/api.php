@@ -66,4 +66,8 @@ Route::middleware('auth:customer')->group(function () {
         Route::post('/customers/favorite-products/add', 'add_favorite_product');
         Route::post('/customers/favorite-products/remove', 'remove_favorite_product');
     });
+    Route::controller(ProductsController::class)->group(function () {
+        Route::get('/products', 'index');
+        Route::get('/products/{product}', 'show');
+    });
 });
