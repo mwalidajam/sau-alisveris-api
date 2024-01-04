@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Products;
+use App\Models\FavoriteProducts;
 
 class ProductsController extends Controller
 {
@@ -11,6 +12,11 @@ class ProductsController extends Controller
     {
         try {
             $products = Products::with('image')->get();
+            if (auth()->user())
+                $products->map(function ($product) {
+                    $product->is_favorite = FavoriteProducts::where('customer_id', auth()->user()->id)->where('product_id', $product->id)->exists();
+                    return $product;
+                });
             return response()->json([
                 'status' => 'success',
                 'products' => $products,
