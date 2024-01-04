@@ -89,7 +89,7 @@ class CustomersController extends Controller
     {
         try {
             $user = auth()->user();
-            $favorite_product = FavoriteProducts::where('customer_id', $user->id)->where('product_id', $request->product_id)->firstOrFail();
+            $favorite_product = FavoriteProducts::where('customer_id', $user->id)->where('product_id', $request->product_id)->get();
             $favorite_product->delete();
             return response()->json([
                 'status' => 'success',
