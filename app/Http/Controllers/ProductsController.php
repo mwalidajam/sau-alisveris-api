@@ -80,6 +80,8 @@ class ProductsController extends Controller
     {
         try {
             $product->load('image');
+            if (auth()->user())
+                $product->is_favorite = FavoriteProducts::where('customer_id', auth()->user()->id)->where('product_id', $product->id)->exists();
             return response()->json([
                 'status' => 'success',
                 'product' => $product,
