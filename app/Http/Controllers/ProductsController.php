@@ -57,27 +57,30 @@ class ProductsController extends Controller
         try {
             // detect if price changed
             if ($request->price != $product->price) {
-                // send notification to customers using curl request
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, 'https://onesignal.com/api/v1/notifications');
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
-                    'included_segments' => [
-                        'Subscribed Users',
-                    ],
-                    'contents' => [
-                        'en' => $product->name . ' fiyatı değişti'
-                    ]
-                ]));
-                // header
-                curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                    'Content-Type: application/json',
-                    'Authorization: Basic OTk0Mzg0ZWEtMDFiOC00NjgzLThhOWItOTVkOTFhMzc0ZWE5',
-                    'content-type: application/json',
-                ]);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                $server_output = curl_exec($ch);
-                curl_close($ch);
+                // // send notification to customers using curl request
+                // $ch = curl_init();
+                // curl_setopt($ch, CURLOPT_URL, 'https://onesignal.com/api/v1/notifications');
+                // curl_setopt($ch, CURLOPT_POST, 1);
+                // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+                //     'included_segments' => [
+                //         'Subscribed Users',
+                //     ],
+                //     'contents' => [
+                //         'en' => $product->name . ' fiyatı değişti'
+                //     ]
+                // ]));
+                // // header
+                // curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                //     'Content-Type: application/json',
+                //     'Authorization: Basic OTk0Mzg0ZWEtMDFiOC00NjgzLThhOWItOTVkOTFhMzc0ZWE5',
+                //     'content-type: application/json',
+                // ]);
+                // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                // $server_output = curl_exec($ch);
+                // curl_close($ch);
+                OneSignal::sendNotificationToAll(
+                    $product->name . ' fiyatı değişti'
+                );
             }
             $product->name = $request->name;
             $product->details = $request->details;
