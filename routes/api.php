@@ -41,18 +41,6 @@ Route::middleware('auth:api')->group(function () {
     });
 });
 
-Route::post('/login', [AuthController::class, 'login']);
-
-Route::controller(ProductsController::class)->group(function () {
-    Route::get('/app-products', 'index');
-    Route::get('/app-products/{product}', 'show');
-});
-
-Route::controller(CustomersController::class)->group(function () {
-    Route::post('/customers/register', 'register');
-    Route::post('/customers/login', 'login');
-});
-
 Route::middleware('auth:customer')->group(function () {
     // customers
     Route::get('/customers/test', function () {
@@ -71,3 +59,17 @@ Route::middleware('auth:customer')->group(function () {
         Route::get('/app-products/{product}', 'show');
     });
 });
+
+
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::controller(ProductsController::class)->group(function () {
+    Route::get('/app-products', 'index');
+    Route::get('/app-products/{product}', 'show');
+});
+
+Route::controller(CustomersController::class)->group(function () {
+    Route::post('/customers/register', 'register');
+    Route::post('/customers/login', 'login');
+});
+
