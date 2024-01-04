@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Customers;
 use Illuminate\Support\Facades\Hash;
+use App\Models\FavoriteProducts;
 
 class CustomersController extends Controller
 {
@@ -57,6 +58,68 @@ class CustomersController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'Error logging in customer',
+                'error' => $th->getMessage(),
+            ]);
+        }
+    }
+
+    public function add_favorite_product(Request $request)
+    {
+        try {
+            $user = auth()->user();
+            $favorite_product = new FavoriteProducts([
+                'customer_id' => $user->id,
+                'product_id' => $request->product_id,
+            ]);
+            $favorite_product->save();
+            return response()->json([
+                'status' => 'success',
+                'favorite_product' => $favorite_product,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error adding favorite product',
+                'error' => $th->getMessage(),
+            ]);
+        }
+    }
+
+    public function remove_favorite_product(Request $request)
+    {
+        try {
+            $user = auth()->user();
+            $favorite_product = FavoriteProducts::where('customer_id', $user->id)->where('product_id', $request->product_id)->firstOrFail();
+            $favorite_product->delete();
+            return response()->json([
+                'status' => 'success',
+                'favorite_product' => $favorite_product,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error removing favorite product',
+                'error' => $th->getMessage(),
+            ]);
+        }
+    }
+
+    public function get_favorite_products()
+    {
+        try {
+            $user = auth()->user();
+            $favorite_products = FavoriteProducts::where('customer_id', $user->id)->with('product')->get();
+            return response()->json([
+                'status' => 'success',
+                'favorite_products' => $favorite_products,
+                'products' => $favorite_products->map(function ($favorite_product) {
+                    return $favorite_product->product;
+                }),
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error getting favorite products',
                 'error' => $th->getMessage(),
             ]);
         }

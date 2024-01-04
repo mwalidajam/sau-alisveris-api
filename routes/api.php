@@ -60,4 +60,10 @@ Route::middleware('auth:customer')->group(function () {
             'status' => 'success',
         ]);
     });
+
+    Route::controller(CustomersController::class)->group(function () {
+        Route::get('/customers/favorite-products', 'get_favorite_products');
+        Route::post('/customers/favorite-products/add', 'add_favorite_product');
+        Route::post('/customers/favorite-products/remove', 'remove_favorite_product');
+    });
 });

@@ -25,4 +25,9 @@ class Customers extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function favorite_products()
+    {
+        return $this->hasMany(FavoriteProducts::class, 'customer_id');
+    }
 }
