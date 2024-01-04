@@ -113,7 +113,9 @@ class CustomersController extends Controller
                 'status' => 'success',
                 'favorite_products' => $favorite_products,
                 'products' => $favorite_products->map(function ($favorite_product) {
-                    return $favorite_product->product;
+                    $product = $favorite_product->product;
+                    $product->image;
+                    return $product;
                 }),
             ]);
         } catch (\Throwable $th) {
