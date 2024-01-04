@@ -89,11 +89,12 @@ class CustomersController extends Controller
     {
         try {
             $user = auth()->user();
-            $favorite_product = FavoriteProducts::where('customer_id', $user->id)->where('product_id', $request->product_id)->get();
-            $favorite_product->delete();
+            $favorite_products = FavoriteProducts::where('customer_id', $user->id)->where('product_id', $request->product_id)->get();
+            foreach ($favorite_products as $favorite_product) {
+                $favorite_product->delete();
+            }
             return response()->json([
                 'status' => 'success',
-                'favorite_product' => $favorite_product,
             ]);
         } catch (\Throwable $th) {
             return response()->json([
