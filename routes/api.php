@@ -44,8 +44,8 @@ Route::middleware('auth:api')->group(function () {
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::controller(ProductsController::class)->group(function () {
-    Route::get('/products', 'index');
-    Route::get('/products/{product}', 'show');
+    Route::get('/app-products', 'index');
+    Route::get('/app-products/{product}', 'show');
 });
 
 Route::controller(CustomersController::class)->group(function () {
@@ -67,7 +67,7 @@ Route::middleware('auth:customer')->group(function () {
         Route::post('/customers/favorite-products/remove', 'remove_favorite_product');
     });
     Route::controller(ProductsController::class)->group(function () {
-        Route::get('/products', 'index');
-        Route::get('/products/{product}', 'show');
+        Route::get('/app-products', 'index');
+        Route::get('/app-products/{product}', 'show');
     });
 });
